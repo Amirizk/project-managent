@@ -46,7 +46,8 @@ class UserController extends BaseController
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());
         }
-
+        $pass=bcrypt($input['password']);
+        $input['password'] = $pass;
         $user = new User($input);
         $user->save();
         $user_id= $user->id;
@@ -57,7 +58,7 @@ class UserController extends BaseController
 
         if ($role) {
             $this->scope = $role->role;
-        }
+        }// try remove
         return $this->sendResponse(new UserResource($user), 'User created successfully.');
     }
 
@@ -124,9 +125,9 @@ class UserController extends BaseController
      * @return JsonResponse
      * @throws Exception
      */
-    public function destroy(User $user)
+    public function destroy($user_id)
     {
-
+        $user= User::find($user_id);
         $user->delete();
         return $this->sendResponse([], 'User deleted successfully.');
 

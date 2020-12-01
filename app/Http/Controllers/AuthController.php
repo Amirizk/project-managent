@@ -33,6 +33,7 @@ class AuthController extends BaseController
         $user = new User($input);
         $user->save();
 
+        //responses data
         $success['name'] =  $user->name;
         $success['user_id'] = $user->id;
         $user_id = $user->id;
@@ -57,15 +58,19 @@ class AuthController extends BaseController
         {
 
             $user = auth()->user();
+            //$user_id =Auth::user()->id;
+            //$user=User::find(#user_id);
             $userRole = $user->role()->first();
             //dd($userRole);
             if ($userRole) {
                 $this->scope = $userRole->role;
             }
+
             $success['token'] = $user->createToken($user->email.'-'.now(), [$this->scope])->accessToken;
             $success['name'] =  $user->name;
             $success['id'] = $user->id;
             $success['email'] = $user->email;
+            $success['user_role']= $userRole;
             //dd($success);
             return $this->sendResponse($success, 'User logged in successfully.');
         }
