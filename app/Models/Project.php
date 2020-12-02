@@ -10,6 +10,18 @@ class Project extends Model
 {
     use HasFactory;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'team_admin_id',
+        'organization_id',
+        'percentage_done',
+    ];
+
     public function tasks() {
         return $this->hasMany(Task::class);
     }

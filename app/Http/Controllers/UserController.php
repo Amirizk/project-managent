@@ -25,6 +25,7 @@ class UserController extends BaseController
     {
 
         $admin_id=auth()->user()->id;
+
         $query = "SELECT  users.id, name, email , role, organization_id
                 FROM users
                 INNER JOIN roles r on users.id = r.user_id
@@ -37,7 +38,7 @@ class UserController extends BaseController
             return $this->sendError("Couldn't find organization employees",['error' => 'No employees found']);
         }
 
-        return $this->sendResponse($users, 'Users retrieved successfully.');
+        return $this->sendResponse($users, 'Employees retrieved successfully.');
 
     }
 
