@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Team;
 use Illuminate\Http\Request;
+use Validator;
 
-class TeamController extends Controller
+class TeamController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -31,11 +32,28 @@ class TeamController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->all();
+        $validator = Validator::make($input, [
+            'name' => 'required',
+            'team_admin_id' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+        $org_id = auth()->user()->id;
+        $createTeam = [ 'name' =>$input['name'],
+            'team_admin_id' => $input['team_admin_id'],
+            'organization_id' => $org_id,
+        ];
+        $team = new Team($createTeam);
+        $team->save();
+
+        return $this->sendResponse($team, 'Team created successfully.');
     }
 
     /**
