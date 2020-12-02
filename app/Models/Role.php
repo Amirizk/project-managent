@@ -19,6 +19,7 @@ class Role extends Model
 
         'user_id',
         'role',
+        'organization_id',
 
     ];
 

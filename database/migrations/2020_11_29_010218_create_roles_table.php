@@ -17,6 +17,7 @@ class CreateRolesTable extends Migration
             $table->id();
             $table->foreignId('user_id');//->unique()
             $table->string('role');
+            $table->integer('organization_id');
             $table->timestamps();
 
             $table->foreign('user_id')
@@ -24,6 +25,7 @@ class CreateRolesTable extends Migration
                 ->on('users')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+
         });
     }
 

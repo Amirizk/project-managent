@@ -9,6 +9,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Resources\User as UserResource;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Validator;
 
 class UserController extends BaseController
@@ -51,8 +52,14 @@ class UserController extends BaseController
         $user = new User($input);
         $user->save();
         $user_id= $user->id;
+        $role = $input['role'];
+        $org_id = auth()->user()->id;
 
-        $createRole = [ 'user_id' =>$user_id, 'role' => $input['role']];
+        // note we added org_id
+        $createRole = [ 'user_id' =>$user_id,
+                        'role' => $role,
+                        'organization_id' => $org_id,
+                        ];
         $role = new Role($createRole);
         $role->save();
 
