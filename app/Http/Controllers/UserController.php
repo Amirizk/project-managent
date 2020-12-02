@@ -134,9 +134,11 @@ class UserController extends BaseController
      */
     public function destroy($user_id)
     {
-        $user= User::find($user_id);
+        $user=auth()->user()->find($user_id);
+        //dd($user2);
+        //$user= User::find($user_id);
         $user->delete();
-        return $this->sendResponse([], 'User deleted successfully.');
+        return $this->sendResponse([new UserResource($user)], 'User deleted successfully.');
 
     }
 
