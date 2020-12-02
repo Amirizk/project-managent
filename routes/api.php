@@ -38,3 +38,4 @@ Route::middleware(['auth:api', 'role'])->group(function() {
     // Delete User
     Route::middleware(['scope:admin'])->delete('/user/{user_id}',[ UserController::class, 'destroy']);
 });
+//sssssssssssssssssssssssssss
