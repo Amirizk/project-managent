@@ -101,7 +101,7 @@ class TeamController extends BaseController
         //
     }
 
-    public function addTeamUsers(Request $request){
+    public function addTeamMember(Request $request){
 
         $input = $request->all();
         $validator = Validator::make($input, [
