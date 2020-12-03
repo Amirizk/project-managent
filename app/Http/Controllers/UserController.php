@@ -152,4 +152,44 @@ class UserController extends BaseController
 
     }
 
+    public function getAllModerators(){
+
+        $admin_id=auth()->user()->id;
+
+        $query = "SELECT  users.id, name, email , role, organization_id
+                FROM users
+                INNER JOIN roles r on users.id = r.user_id
+                WHERE (role = 'moderator') AND r.organization_id=$admin_id
+                ORDER BY user_id";
+        $users = DB::Select($query);
+
+
+        if(is_null($users)){
+            return $this->sendError("Couldn't find organization Team admins",['error' => 'No team admins found']);
+        }
+
+        return $this->sendResponse($users, 'Team admins retrieved successfully.');
+    }
+
+
+
+    public function getAllBasic(){
+
+        $admin_id=auth()->user()->id;
+
+        $query = "SELECT  users.id, name, email , role, organization_id
+                FROM users
+                INNER JOIN roles r on users.id = r.user_id
+                WHERE (role = 'basic') AND r.organization_id=$admin_id
+                ORDER BY user_id";
+        $users = DB::Select($query);
+
+
+        if(is_null($users)){
+            return $this->sendError("Couldn't find organization Team members",['error' => 'No team members found']);
+        }
+
+        return $this->sendResponse($users, 'Team members retrieved successfully.');
+    }
+
 }
