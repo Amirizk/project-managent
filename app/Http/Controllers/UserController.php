@@ -24,10 +24,11 @@ class UserController extends BaseController
     public function index()
     {
 
+        $admin_id=auth()->user()->id;
         $query = "SELECT  users.id, name, email , role, organization_id
                 FROM users
                 INNER JOIN roles r on users.id = r.user_id
-                WHERE role = 'moderator' or role = 'basic'
+                WHERE (role = 'moderator' or role = 'basic') AND r.organization_id=$admin_id
                 ORDER BY user_id";
         $users = DB::Select($query);
 
