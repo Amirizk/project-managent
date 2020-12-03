@@ -39,6 +39,8 @@ Route::middleware(['auth:api', 'role'])->group(function() {
     // Delete User
     Route::middleware(['scope:admin'])->delete('/user/{user_id}',[ UserController::class, 'destroy']);
     Route::middleware(['scope:admin'])->get('/getAllMembers',[ UserController::class, 'index']);
+    Route::middleware(['scope:admin'])->get('/getAllModerators',[ UserController::class, 'getAllModerators']);
+    Route::middleware(['scope:admin'])->get('/getAllBasic',[ UserController::class, 'getAllBasic']);
 
     Route::middleware(['scope:admin'])->post('/team',[ TeamController::class, 'store']);
 
