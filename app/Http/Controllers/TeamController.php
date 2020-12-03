@@ -106,14 +106,14 @@ class TeamController extends BaseController
         $input = $request->all();
         $validator = Validator::make($input, [
             'member_id' => 'required',
-            'team_admin_id' => 'required',
+            'team_id' => 'required',
         ]);
 
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());
         }
         $createTeamMember = [ 'member_id' =>$input['member_id'],
-            'team_admin_id' => $input['team_admin_id'],
+            'team_id' => $input['team_id'],
         ];
         $team = new Team($createTeamMember);
         $team->save();
