@@ -8,8 +8,9 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Link } from 'react-router-dom';
 import NavBar_Admin from './Admin/NavBar_Admin'
-
-
+import {useEffect} from 'react';
+import {useContext} from 'react'; 
+import {UserContext} from './UserContext';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -27,8 +28,20 @@ export default function Navbar_BeforeLogin() {
 
   var isloggedin=localStorage.getItem('isloggedin');
   var current_role=localStorage.getItem('role');
+  const {user} = useContext(UserContext);
 
-  if(isloggedin!="true" ){
+
+
+  useEffect(() => {
+   
+
+  }, [user]);
+
+
+
+
+
+  if(user!="true" ){
     return (
 
         <div className={classes.root}>
@@ -68,5 +81,9 @@ return (<NavBar_Admin/>);
 }else if(isloggedin=="true"&&current_role=='moderator'){//if moderator return navbar of team leader
 
 }
-return (<NavBar_Admin/>);
+else if(user=="true"){
+
+  return (<NavBar_Admin/>);
+}
+
 }
