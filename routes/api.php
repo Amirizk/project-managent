@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TeamController;
 use App\Http\Controllers\UserController;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -37,5 +38,8 @@ Route::middleware(['auth:api', 'role'])->group(function() {
 
     // Delete User
     Route::middleware(['scope:admin'])->delete('/user/{user_id}',[ UserController::class, 'destroy']);
+    Route::middleware(['scope:admin'])->get('/getAllMembers',[ UserController::class, 'index']);
+
+    Route::middleware(['scope:admin'])->post('/team',[ TeamController::class, 'store']);
+
 });
-//sssssssssssssssssssssssssss

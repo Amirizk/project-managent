@@ -5,10 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Role extends Model
+class Team extends Model
 {
     use HasFactory;
-
 
     /**
      * The attributes that are mass assignable.
@@ -16,15 +15,18 @@ class Role extends Model
      * @var array
      */
     protected $fillable = [
-
-        'user_id',
-        'role',
+        'name',
+        'team_admin_id',
         'organization_id',
-
     ];
 
-    public function user()
-    {
+    public function users() {
+        return $this->hasMany(User::class);
+    }
+    public function projects() {
+        return $this->hasMany(Project::class);
+    }
+    public function user() {
         return $this->belongsTo(User::class);
     }
 

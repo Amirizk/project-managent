@@ -9,6 +9,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Resources\User as UserResource;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Validator;
 
 class UserController extends BaseController
@@ -21,13 +23,22 @@ class UserController extends BaseController
      */
     public function index()
     {
-        $users = User::all();
+
+        $admin_id=auth()->user()->id;
+
+        $query = "SELECT  users.id, name, email , role, organization_id
+                FROM users
+                INNER JOIN roles r on users.id = r.user_id
+                WHERE (role = 'moderator' or role = 'basic') AND r.organization_id=$admin_id
+                ORDER BY user_id";
+        $users = DB::Select($query);
+
 
         if(is_null($users)){
-            return $this->sendError("Couldn't find users",['error' => 'No Users found']);
+            return $this->sendError("Couldn't find organization employees",['error' => 'No employees found']);
         }
 
-        return $this->sendResponse(UserResource::collection($users), 'Users retrieved successfully.');
+        return $this->sendResponse($users, 'Employees retrieved successfully.');
 
     }
 
@@ -51,8 +62,14 @@ class UserController extends BaseController
         $user = new User($input);
         $user->save();
         $user_id= $user->id;
+        $role = $input['role'];
+        $org_id = auth()->user()->id;
 
-        $createRole = [ 'user_id' =>$user_id, 'role' => $input['role']];
+        // note we added org_id
+        $createRole = [ 'user_id' =>$user_id,
+                        'role' => $role,
+                        'organization_id' => $org_id,
+                        ];
         $role = new Role($createRole);
         $role->save();
 
@@ -127,9 +144,11 @@ class UserController extends BaseController
      */
     public function destroy($user_id)
     {
-        $user= User::find($user_id);
+        $user=auth()->user()->find($user_id);
+        //dd($user2);
+        //$user= User::find($user_id);
         $user->delete();
-        return $this->sendResponse([], 'User deleted successfully.');
+        return $this->sendResponse([new UserResource($user)], 'User deleted successfully.');
 
     }
 

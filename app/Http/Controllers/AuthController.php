@@ -39,13 +39,13 @@ class AuthController extends BaseController
         $user_id = $user->id;
 
         // create a role of admin for the organisation
-        $createRole = [ 'user_id' =>$user_id, 'role' => 'admin'];
+        $createRole = [ 'user_id' =>$user_id, 'role' => 'admin', 'organization_id'=> 0 ];
         $role = new Role($createRole);
         $role->save();
 
         $success['role']=$role->role;
 
-        return $this->sendResponse($success, 'Organisation registered successfully.');
+        return $this->sendResponse($success, 'Organization registered successfully.');
 
     }
 
@@ -61,6 +61,7 @@ class AuthController extends BaseController
             //$user_id =Auth::user()->id;
             //$user=User::find(#user_id);
             $userRole = $user->role()->first();
+
             //dd($userRole);
             if ($userRole) {
                 $this->scope = $userRole->role;
@@ -70,7 +71,8 @@ class AuthController extends BaseController
             $success['name'] =  $user->name;
             $success['id'] = $user->id;
             $success['email'] = $user->email;
-            $success['user_role']= $userRole;
+            $success['user_role']= $userRole->role;
+            $success['organization_id']=$userRole->organization_id;
             //dd($success);
             return $this->sendResponse($success, 'User logged in successfully.');
         }
