@@ -48,7 +48,7 @@ Route::middleware(['auth:api', 'role'])->group(function() {
 
     //add team
     Route::middleware(['scope:admin'])->post('/team',[ TeamController::class, 'store']);
-    Route::middleware(['scope:admin'])->post('/teamMember',[ TeamController::class, 'getTeamMember']);
+    Route::middleware(['scope:admin'])->post('/teamMember',[ TeamController::class, 'addTeamMember']);
 
     //add+get+delete projects
     Route::middleware(['scope:admin'])->post('/project',[ ProjectController::class, 'store']);
