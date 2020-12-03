@@ -7,5 +7,11 @@
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://localhost:3306/proManagementJoi</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="project_management" uuid="b5cc4983-36e9-41ab-8f59-041f933101a8">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306/project_management</jdbc-url>
+    </data-source>
   </component>
 </project>
