@@ -6,28 +6,28 @@ import { DataGrid } from '@material-ui/data-grid';
 import {useEffect, useState} from 'react';
 import axios from 'axios';
 const columns = [
-  { field: 'id', headerName: 'ID', width: 70 },
+  { field: 'id', headerName: 'id', width: 70 },
 
-  { field: 'name', headerName: 'name name', width: 130 },
+  { field: 'name', headerName: 'name ', width: 130 },
   {
-    field: 'email',
-    headerName: 'project_id',
+    field: 'team_id',
+    headerName: 'team_id',
     type: 'number',
-    width: 160,
+    width: 120,
   },
   {
-    field: 'role',
-    headerName: 'project_name ',
+    field: 'organization_id',
+    headerName: 'organization_id ',
     description: 'This column has a value getter and is not sortable.',
 
     width: 160,
 
   },
   {
-    field: 'organization_id',
-    headerName: 'team_id',
+    field: 'percentage_done',
+    headerName: 'percentage_done',
 
-    width: 130,
+    width: 160,
   },
   
 
@@ -60,16 +60,16 @@ export default function Members_Show() {
    };
    const handlePurge = () => {
        deletedRows.forEach(element => {
-             deleteMember(element.id);
+             deleteProject(element.id);
        });
     setMembers(
       members.filter((r) => deletedRows.filter((sr) => sr.id === r.id).length < 1)
     );
   };
 
-  function deleteMember(id){
+  function deleteProject(id){
     console.log("id is ",id);
-    var send_url="http://localhost:8000/api/user/"+id;
+    var send_url="http://localhost:8000/api/project/"+id;
   axios.delete(send_url).then(res => {
       const result = res.data;
       console.log("RESULT:from home ", result);
@@ -83,7 +83,7 @@ export default function Members_Show() {
         let token = localStorage.getItem('token');
         axios.defaults.headers.common['Authorization'] =  'Bearer '+token;
 
-            var send_url_index="http://localhost:8000/api/getAllMembers";
+            var send_url_index="http://localhost:8000/api/getAllProjects";
             axios.get(send_url_index).then(res => {
                   const result = res.data;
                   console.log("members data ", result);

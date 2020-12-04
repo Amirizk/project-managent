@@ -87,7 +87,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PersistentDrawerLeft() {
+export default function NavBar_Basics() {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -151,11 +151,11 @@ export default function PersistentDrawerLeft() {
     <ListItemText primary="Create Project"/>
 </ListItem>
 
-<ListItem button onClick={() => history.push('/members_admin')}>
+<ListItem button onClick={() => history.push('/addtask')}>
           <ListItemIcon>
-        <ListAltIcon/>
+          <CreateNewFolderIcon/>
       </ListItemIcon>
-    <ListItemText primary="Members"/>
+    <ListItemText primary="Add Task"/>
 </ListItem>
 
 <ListItem button onClick={() => history.push('/login')}>
@@ -165,11 +165,11 @@ export default function PersistentDrawerLeft() {
     <ListItemText primary="TimeLine"/>
 </ListItem>
 
-<ListItem button onClick={() => history.push('/show_teams')}>
+<ListItem button onClick={() => history.push('/logout')}>
           <ListItemIcon>
           <GroupIcon/>
       </ListItemIcon>
-    <ListItemText primary="Teams"/>
+    <ListItemText primary="TeamMembers"/>
 </ListItem>
 
 
@@ -177,7 +177,7 @@ export default function PersistentDrawerLeft() {
           <ListItemIcon>
           <WhatsAppIcon/>
       </ListItemIcon>
-    <ListItemText primary="Chat Room"/>
+    <ListItemText primary="Chat Basic"/>
 </ListItem>
 
 

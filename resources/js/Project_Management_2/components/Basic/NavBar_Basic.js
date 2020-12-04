@@ -87,7 +87,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PersistentDrawerLeft() {
+export default function NavBar_Basics() {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -121,7 +121,7 @@ export default function PersistentDrawerLeft() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-           Organizer {localStorage.getItem('user_name')}
+           Member {localStorage.getItem('user_name')}
           </Typography>
         </Toolbar>
       </AppBar>
@@ -158,18 +158,18 @@ export default function PersistentDrawerLeft() {
     <ListItemText primary="Members"/>
 </ListItem>
 
-<ListItem button onClick={() => history.push('/login')}>
+<ListItem button onClick={() => history.push('/tasks')}>
           <ListItemIcon>
         <ScheduleIcon/>
       </ListItemIcon>
-    <ListItemText primary="TimeLine"/>
+    <ListItemText primary="My Tasks"/>
 </ListItem>
 
-<ListItem button onClick={() => history.push('/show_teams')}>
+<ListItem button onClick={() => history.push('/logout')}>
           <ListItemIcon>
           <GroupIcon/>
       </ListItemIcon>
-    <ListItemText primary="Teams"/>
+    <ListItemText primary="TeamMembers"/>
 </ListItem>
 
 
@@ -177,7 +177,7 @@ export default function PersistentDrawerLeft() {
           <ListItemIcon>
           <WhatsAppIcon/>
       </ListItemIcon>
-    <ListItemText primary="Chat Room"/>
+    <ListItemText primary="Chat Basic"/>
 </ListItem>
 
 

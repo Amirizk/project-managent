@@ -77,13 +77,13 @@ console.log("entssssered makesignrequest");
     if(res.data!=''){
 
     
-    if(res.data.token!=null){
+    if(res.data.data.token!=null){
         console.log('logedin');
     localStorage.setItem('isloggedin',true);
-    localStorage.setItem('user_id',res.data.user.id);
-    localStorage.setItem('user_name',res.data.user.name);
-    localStorage.setItem('token',res.data.token);
-    localStorage.setItem('role',res.data.user_role.role);
+    localStorage.setItem('user_id',res.data.data.id);
+    localStorage.setItem('user_name',res.data.data.name);
+    localStorage.setItem('token',res.data.data.token);
+    localStorage.setItem('role',res.data.data.user_role);
     console.log('user_id',res.data.message);
     let token = localStorage.getItem('token');
     axios.defaults.headers.common['Authorization'] =  'Bearer '+token;
@@ -93,7 +93,7 @@ console.log("entssssered makesignrequest");
         alert("login failed");
         history.push('/login');
     }
-   if(res.data.user_role.role=="admin"){
+   if(res.data.data.user_role=="admin"){
     history.push('/homepage_admin');
    }else{
      history.push('/login');
@@ -109,10 +109,6 @@ console.log("entssssered makesignrequest");
 
 
 
-function showStates(){
-    console.log(email);
-    console.log(password);
-  }
 
 
 
@@ -186,13 +182,14 @@ function showStates(){
             Sign In
           </Button>
           Sign Up for Your Own Organization !<br></br><br></br>
+          
+
           <Button
           color="inherit"
           variant="contained"
           component={Link} to={'/register'}>
-              Register
+             Register
               </Button>
-
           <Grid container>
 
 

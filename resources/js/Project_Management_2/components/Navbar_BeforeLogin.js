@@ -11,6 +11,11 @@ import NavBar_Admin from './Admin/NavBar_Admin'
 import {useEffect} from 'react';
 import {useContext} from 'react'; 
 import {UserContext} from './UserContext';
+import NavBar_Basics from './Basic/NavBar_Basic';
+
+
+
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -59,24 +64,13 @@ export default function Navbar_BeforeLogin() {
           </AppBar>
         </div>
       );
-}else if(isloggedin=="true" && current_role=='admin')
+}else if(user=="true" && current_role=='admin')
 
 {
-
-
-
-
-
-
-
 return (<NavBar_Admin/>);
 
-
-
-
-
 }else if(isloggedin=="true"&&current_role=='basic'){//if basic return navbar of basic employee
-    return (<NavBar_Admin/>);
+    return (<NavBar_Basics/>);
 
 }else if(isloggedin=="true"&&current_role=='moderator'){//if moderator return navbar of team leader
 
