@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Validator;
+use Illuminate\Support\Facades\DB;
 class TaskController extends BaseController
 {
     /**
@@ -21,7 +22,22 @@ class TaskController extends BaseController
         return $this->sendResponse($tasks, 'Tasks retrieved successfully.');
     }
 
+ public function index_basic(){
 
+
+    $user_id=auth()->user()->id;
+
+    $query = "SELECT  t.id,t.project_id,t.name,ut.member_Id as member_id,u.name as member_name
+            FROM tasks as t
+            INNER JOIN tasks_users ut on ut.task_id = t.id
+            INNER JOIN users as u on u.id=ut.member_Id
+            WHERE (ut.member_Id = '$user_id')
+            ORDER BY t.id";
+          $tasks=  DB::select(   $query);
+ return $this->sendResponse( $tasks, 'Tasks retrieved successfully.');
+
+
+ }
     /**
      * Show the form for creating a new resource.
      *
