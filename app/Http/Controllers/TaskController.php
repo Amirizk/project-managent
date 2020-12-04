@@ -109,8 +109,29 @@ class TaskController extends BaseController
     }
 
 
-    public function setDone(Request $request , $id){
+    public function isDone(Request $request , $task_id){
 
+        $input = $request->all();
+
+        $validator = Validator::make($input, [
+            'isDone' => 'required',
+        ]);
+
+        if($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+
+        $task = Task::find($task_id);
+        $task->isDone=$request->isDone;
+        $task->save();
+        //$updateTask = $task->fill($input->all())->update();
+        if ($task->save()) {
+            return $this->sendResponse($task, 'Task IsDone successfully.');
+        }else
+            {
+            return $this->sendError('Update Error.',['error' => "couldn't setDone task"]);
+
+        }
 
     }
 }
