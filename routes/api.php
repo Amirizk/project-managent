@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\TaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,7 +41,23 @@ Route::middleware(['auth:api', 'role'])->group(function() {
     // Delete User
     Route::middleware(['scope:admin'])->delete('/user/{user_id}',[ UserController::class, 'destroy']);
     Route::middleware(['scope:admin'])->get('/getAllMembers',[ UserController::class, 'index']);
+    Route::middleware(['scope:admin'])->get('/getAllModerators',[ UserController::class, 'getAllModerators']);
+    Route::middleware(['scope:admin'])->get('/getAllBasic',[ UserController::class, 'getAllBasic']);
 
+
+
+    //add team
     Route::middleware(['scope:admin'])->post('/team',[ TeamController::class, 'store']);
+    Route::middleware(['scope:admin'])->post('/teamMember',[ TeamController::class, 'addTeamMember']);
+
+    //add+get+delete projects
+    Route::middleware(['scope:admin'])->post('/project',[ ProjectController::class, 'store']);
+    Route::middleware(['scope:admin'])->get('/getAllProjects',[ ProjectController::class, 'index']);
+    Route::middleware(['scope:admin'])->delete('/project/{project_id}',[ ProjectController::class, 'destroy']);
+
+    //add+get+delete tasks
+    Route::middleware(['scope:admin'])->post('/task',[ TaskController::class, 'store']);
+    Route::middleware(['scope:admin'])->get('/getAllTask/{project_id}',[ TaskController::class, 'index']);
+    Route::middleware(['scope:admin'])->delete('/task/{task_id}',[ TaskController::class, 'destroy']);
 
 });

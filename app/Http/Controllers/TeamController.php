@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Team;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Validator;
 
 class TeamController extends BaseController
@@ -99,5 +100,29 @@ class TeamController extends BaseController
     public function destroy(Team $team)
     {
         //
+    }
+
+    public function addTeamMember(Request $request){
+
+        $input = $request->all();
+        $validator = Validator::make($input, [
+            'member_id' => 'required',
+            'team_id' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+        $member_id = $input['member_id'];
+        $team_id = $input['team_id'];
+
+        $newteam = DB::table('teams_users')->insert([
+                'member_id' => $member_id,
+                'team_id'=> $team_id
+            ]);
+
+        return $this->sendResponse($newteam, 'Team created successfully.');
+
+
     }
 }
