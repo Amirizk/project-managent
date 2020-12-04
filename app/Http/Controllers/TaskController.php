@@ -105,5 +105,13 @@ class TaskController extends BaseController
     {
         $task= Task::find($task_id);
         $task->delete();
-        return $this->sendResponse($task, 'Task deleted successfully.');    }
+        return $this->sendResponse($task, 'Task deleted successfully.');
+    }
+
+
+    public function setDone(Request $request , $id){
+
+
+    }
 }
+
