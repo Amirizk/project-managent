@@ -13,7 +13,7 @@ export default function Logout(){
      setUser("");
     localStorage.clear();
 
-    history.push('/');
+   // history.push('/');
 
 
 return (

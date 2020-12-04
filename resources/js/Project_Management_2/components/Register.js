@@ -45,6 +45,7 @@ export default function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmpassword, setConfirmPassword] = useState('');
 
 
 
@@ -55,7 +56,8 @@ export default function Register() {
         const Datato_Send = {
              name:name,
             email: email,
-            password:password
+            password:password,
+            c_password:confirmpassword
 
           }
          if(password=='' || email=='' || name==''){
@@ -125,6 +127,20 @@ export default function Register() {
                 autoComplete="current-password"
                 value={password}
                 onChange={event => setPassword(event.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="confirmpasssowrd"
+                label="confirmpassword"
+                type="password"
+                id="confirmpassword"
+                autoComplete="current-password"
+                value={confirmpassword}
+                onChange={event => setConfirmPassword(event.target.value)}
               />
             </Grid>
 
