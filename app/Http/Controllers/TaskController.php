@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use App\Models\Task;
+use DB;
 use Illuminate\Http\Request;
 use Validator;
 use Illuminate\Support\Facades\DB;
@@ -121,5 +123,49 @@ class TaskController extends BaseController
     {
         $task= Task::find($task_id);
         $task->delete();
-        return $this->sendResponse($task, 'Task deleted successfully.');    }
+        return $this->sendResponse($task, 'Task deleted successfully.');
+    }
+
+
+    public function isDone(Request $request , $task_id){
+
+        $input = $request->all();
+
+        $validator = Validator::make($input, [
+            'isDone' => 'required',
+        ]);
+
+        if($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+
+        $task = Task::find($task_id);
+        $task->isDone=$request->isDone;
+        $task->save();
+
+        $project_id = $task->project_id;
+
+        $tasksTotal = \DB::table('tasks')->where('project_id', '=', $project_id)->count();
+        $tasksDone = \DB::table('tasks')
+            ->where('project_id', '=', $project_id)
+            ->where('isDone', '=', 1)
+            ->count();
+
+
+        $percentageDone = ($tasksDone/$tasksTotal)*100;
+        $project = Project::find($project_id);
+        $project->percentage_done = $percentageDone;
+        $project->save();
+
+
+        if ($task->save() && $project->save()) {
+            return $this->sendResponse([$task , $project] , 'Task IsDone successfully.');
+        }else
+            {
+            return $this->sendError('Update Error.',['error' => "couldn't setDone task"]);
+
+        }
+
+    }
 }
+

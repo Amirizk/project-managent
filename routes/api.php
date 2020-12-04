@@ -49,6 +49,8 @@ Route::middleware(['auth:api', 'role'])->group(function() {
     //add team
     Route::middleware(['scope:admin'])->post('/team',[ TeamController::class, 'store']);
     Route::middleware(['scope:admin'])->post('/teamMember',[ TeamController::class, 'addTeamMember']);
+    Route::middleware(['scope:admin'])->get('/getAllTeams',[ TeamController::class, 'index']);
+
 
     //add+get+delete projects
     Route::middleware(['scope:admin'])->post('/project',[ ProjectController::class, 'store']);
@@ -59,6 +61,12 @@ Route::middleware(['auth:api', 'role'])->group(function() {
     Route::middleware(['scope:basic'])->get('/tasks',[ TaskController::class, 'index_basic']);
     Route::middleware(['scope:admin'])->post('/task',[ TaskController::class, 'store']);
     Route::middleware(['scope:admin'])->get('/getAllTask/{project_id}',[ TaskController::class, 'index']);
+
     Route::middleware(['scope:admin,basic'])->delete('/task/{task_id}',[ TaskController::class, 'destroy']);
+
+
+    Route::middleware(['scope:admin'])->put('/task/{task_id}',[ TaskController::class, 'isDone']);
+
+
 
 });

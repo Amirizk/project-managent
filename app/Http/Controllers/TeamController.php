@@ -12,11 +12,17 @@ class TeamController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
         //
+        $org_id=auth()->user()->id;
+        $teams=Team::where('organization_id',$org_id)->get();
+        if(is_null($teams)){
+            return $this->sendError("Couldn't find teams",['error' => 'No teams found']);
+        }
+        return $this->sendResponse($teams, 'Teams retrieved successfully.');
     }
 
     /**
@@ -115,6 +121,7 @@ class TeamController extends BaseController
         }
         $member_id = $input['member_id'];
         $team_id = $input['team_id'];
+        // test if already exist before add !!
 
         $newteam = DB::table('teams_users')->insert([
                 'member_id' => $member_id,
