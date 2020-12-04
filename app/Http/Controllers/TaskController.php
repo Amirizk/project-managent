@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use App\Models\Task;
+use DB;
 use Illuminate\Http\Request;
 use Validator;
 class TaskController extends BaseController
@@ -124,9 +126,24 @@ class TaskController extends BaseController
         $task = Task::find($task_id);
         $task->isDone=$request->isDone;
         $task->save();
-        //$updateTask = $task->fill($input->all())->update();
-        if ($task->save()) {
-            return $this->sendResponse($task, 'Task IsDone successfully.');
+
+        $project_id = $task->project_id;
+
+        $tasksTotal = \DB::table('tasks')->where('project_id', '=', $project_id)->count();
+        $tasksDone = \DB::table('tasks')
+            ->where('project_id', '=', $project_id)
+            ->where('isDone', '=', 1)
+            ->count();
+
+
+        $percentageDone = ($tasksDone/$tasksTotal)*100;
+        $project = Project::find($project_id);
+        $project->percentage_done = $percentageDone;
+        $project->save();
+
+
+        if ($task->save() && $project->save()) {
+            return $this->sendResponse([$task , $project] , 'Task IsDone successfully.');
         }else
             {
             return $this->sendError('Update Error.',['error' => "couldn't setDone task"]);
