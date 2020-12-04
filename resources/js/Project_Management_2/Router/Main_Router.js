@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState,useContext } from 'react'
 
 
 import ReactDOM from 'react-dom';
@@ -16,16 +16,20 @@ import Members_Show from '../components/Admin/Members_Show';
 import Register from '../components/Register';
 import Navbar_BeforeLogin from '../components/Navbar_BeforeLogin';
 import HomePage_Admin from '../components/Admin/HomePage_Admin';
-export default function Initial() {
+import {UserContext} from '../components/UserContext';
 
+export default function Initial() {
+    var isloggedin=localStorage.getItem('isloggedin');
+    const [user, setUser] = useState(isloggedin);
+console.log('entered router');
     return (
 
-
         <Router >
+<UserContext.Provider value={{user,setUser}}>
 
             <Navbar_BeforeLogin></Navbar_BeforeLogin>
 
-
+            { console.log('entered navbar') }
 
 
             <Switch>
@@ -40,7 +44,7 @@ export default function Initial() {
                 <Register> </Register>
                 </Route>
 
-
+                { console.log('entered navbar') }
                 <Route exact path="/addproject">
                 <AddProject> </AddProject>
                 </Route>
@@ -58,9 +62,9 @@ export default function Initial() {
 
 
             </Switch>
+            </UserContext.Provider>
 
         </Router>
-
     )
 }
 ReactDOM.render(<Initial />,document.getElementById('root'));

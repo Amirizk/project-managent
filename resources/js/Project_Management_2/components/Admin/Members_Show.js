@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button';
 import * as React from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 import {useEffect, useState} from 'react';
+import axios from 'axios';
 const columns = [
   { field: 'id', headerName: 'ID', width: 70 },
 
@@ -78,7 +79,7 @@ export default function Members_Show() {
       const result = res.data;
       console.log("RESULT:from home ", result);
    //   fetchPosts();
-      history.push('/');//this will redirect you to home page ;
+     // history.push('/login');//this will redirect you to home page ;
       alert('post deleted');
   }).catch(error => console.log(error));
 

@@ -1,5 +1,6 @@
 
-import React from 'react';
+import {React,useContext } from 'react';
+import axios from 'axios';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -17,7 +18,7 @@ import ReactDOM from 'react-dom';
 import  {useState} from 'react';
 import {useHistory} from 'react-router-dom';
 import { Link } from 'react-router-dom';
-
+import {UserContext} from './UserContext';
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -46,6 +47,15 @@ export default function SignIn() {
   const [password, setPassword] = useState('');
   console.log("entered makesignrequest");
 
+  
+
+
+  const { user, setUser } = useContext(UserContext);
+
+
+
+
+
 
   async function makeSignRequest() {
 console.log("entssssered makesignrequest");
@@ -64,6 +74,9 @@ console.log("entssssered makesignrequest");
 
     console.log(res.data);
     alert(res.data);
+    if(res.data!=''){
+
+    
     if(res.data.token!=null){
         console.log('logedin');
     localStorage.setItem('isloggedin',true);
@@ -74,6 +87,7 @@ console.log("entssssered makesignrequest");
     console.log('user_id',res.data.message);
     let token = localStorage.getItem('token');
     axios.defaults.headers.common['Authorization'] =  'Bearer '+token;
+    setUser(localStorage.getItem('isloggedin'));
     //history.push('/home');//this will redirect you to home page ;
     }else{
         alert("login failed");
@@ -82,10 +96,14 @@ console.log("entssssered makesignrequest");
    if(res.data.user_role.role=="admin"){
     history.push('/homepage_admin');
    }else{
+     history.push('/login');
        //if not an admin check if he is contributor or
 //history.push('/homepage_member');
    }
-
+  }
+  else{
+    history.push('/login');
+  }
 
 }
 

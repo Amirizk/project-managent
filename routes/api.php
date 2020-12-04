@@ -58,10 +58,15 @@ Route::middleware(['auth:api', 'role'])->group(function() {
     Route::middleware(['scope:admin'])->delete('/project/{project_id}',[ ProjectController::class, 'destroy']);
 
     //add+get+delete tasks
+    Route::middleware(['scope:basic'])->get('/tasks',[ TaskController::class, 'index_basic']);
     Route::middleware(['scope:admin'])->post('/task',[ TaskController::class, 'store']);
     Route::middleware(['scope:admin'])->get('/getAllTask/{project_id}',[ TaskController::class, 'index']);
-    Route::middleware(['scope:admin'])->delete('/task/{task_id}',[ TaskController::class, 'destroy']);
+
+    Route::middleware(['scope:admin,basic'])->delete('/task/{task_id}',[ TaskController::class, 'destroy']);
+
+
     Route::middleware(['scope:admin'])->put('/task/{task_id}',[ TaskController::class, 'isDone']);
+
 
 
 });
